@@ -21,3 +21,16 @@ class TestWordSet(unittest.TestCase):
     def test_has_common(self):
         self.assertSetEqual(self.word_set_1.has_common(self.word_set_2),
                             {'term2'})
+
+    def test_has_common_wrong_type(self):
+        with self.assertRaises(ValueError):
+            # noinspection PyTypeChecker
+            self.word_set_1.has_common([1, 2, 3])
+
+    def test_repr(self):
+        self.assertEqual(repr(self.word_set_1), 'WordSet1')
+        self.assertEqual(repr(self.word_set_2), 'WordSet2')
+
+    def test_str(self):
+        self.assertEqual(str(self.word_set_1), 'WordSet1')
+        self.assertEqual(str(self.word_set_2), 'WordSet2')
