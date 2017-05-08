@@ -1,5 +1,8 @@
 # IDE settings
 .idea/
 
+# Python byte code
+__pycache__/
+
 # Sensetive data
 envs.py
