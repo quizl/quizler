@@ -6,3 +6,6 @@ __pycache__/
 
 # Sensetive data
 envs.py
+
+# mypy cache
+.mypy_cache

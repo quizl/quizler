@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+disable=locally-disabled,
+ # False positive for test file classes and methods
+ missing-docstring
+
+[REPORTS]
+# Simplify pylint reports
+reports=no
+score=no
