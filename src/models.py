@@ -4,20 +4,15 @@ from typing import List, Dict, Set
 
 
 class WordSet:
-    """Set of words and descriptions."""
+    """Set of terms and descriptions."""
 
     def __init__(self, title: str, terms: List[Dict]) -> None:
-        """Create a WordSet.
-
-        Args:
-            title:
-            terms:
-        """
+        """Where terms are raw data from API call."""
         self.title = title
         self.terms = terms
 
     def has_common(self, other: 'WordSet') -> Set[str]:
-        """Check how many common words do word sets have."""
+        """Return set of common words between two word sets."""
         if not isinstance(other, WordSet):
             raise ValueError('Can compare only WordSets')
         return self.term_set & other.term_set
