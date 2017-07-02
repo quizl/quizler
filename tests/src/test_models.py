@@ -1,6 +1,27 @@
 import unittest
 
-from src.models import WordSet
+from src.models import WordSet, Term
+
+
+class TestTerm(unittest.TestCase):
+    def test_correct_init(self):
+        raw_data = {
+            'definition': 'term definition',
+            'id': 12345,
+            'image': None,
+            'rank': 0,
+            'term': 'term'
+        }
+        term = Term(raw_data)
+        self.assertEqual(term.definition, 'term definition')
+        self.assertEqual(term.id, 12345)
+        self.assertEqual(term.image, None)
+        self.assertEqual(term.rank, 0)
+        self.assertEqual(term.term, 'term')
+
+    def test_wrong_term_json_structure(self):
+        with self.assertRaises(ValueError):
+            Term({'some data': '142% unexpected'})
 
 
 class TestWordSet(unittest.TestCase):

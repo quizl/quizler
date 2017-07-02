@@ -1,9 +1,11 @@
 """Entry point and CLI."""
 
+from src.utils import get_common_terms
+
 
 def main():
-    """Find term duplicates in all user sets."""
-    pass
+    # ToDo: CLI interface
+    get_common_terms()
 
 
 if __name__ == '__main__':

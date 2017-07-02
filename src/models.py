@@ -1,8 +1,22 @@
 """OOP models for Quizlet terms abstractions."""
 
 
+class Term:
+    """Quizlet term abstraction."""
+
+    def __init__(self, raw_data):
+        try:
+            self.definition = raw_data['definition']
+            self.id = raw_data['id']
+            self.image = raw_data['image']
+            self.rank = raw_data['rank']
+            self.term = raw_data['term']
+        except KeyError:
+            raise ValueError('Unexpected term json structure')
+
+
 class WordSet:
-    """Set of terms and descriptions."""
+    """Quizlet set of terms and descriptions abstraction."""
 
     def __init__(self, title, terms):
         self.title = title
