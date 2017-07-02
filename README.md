@@ -2,7 +2,7 @@
 
 # quizlet_utils
 
-Collection of utils for Quizlet flash cards.
+Collection of utils for Quizlet flash cards
 
 ## Requirements
 
