@@ -1,6 +1,6 @@
-[![Requirements Status](https://requires.io/github/lancelote/quizlet_utils/requirements.svg?branch=master)](https://requires.io/github/lancelote/quizlet_utils/requirements/?branch=master)
+[![Requirements Status](https://requires.io/github/lancelote/quizler/requirements.svg?branch=master)](https://requires.io/github/lancelote/quizler/requirements/?branch=master)
 
-# quizlet_utils
+# quizler
 
 Collection of utils for Quizlet flash cards
 
