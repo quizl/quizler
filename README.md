@@ -1,4 +1,5 @@
 [![Requirements Status](https://requires.io/github/lancelote/quizler/requirements.svg?branch=master)](https://requires.io/github/lancelote/quizler/requirements/?branch=master)
+[![Build Status](https://travis-ci.org/lancelote/quizler.svg?branch=master)](https://travis-ci.org/lancelote/quizler)
 
 # quizler
 
