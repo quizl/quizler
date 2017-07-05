@@ -6,9 +6,9 @@ from src.lib import api_call
 from src.models import WordSet
 
 
-def get_common_terms():
+def get_common_terms(*api_envs):
     """Get all term duplicates across all user word sets."""
-    response = api_call('sets')
+    response = api_call('sets', *api_envs)
     word_sets = []
     common_terms = []
 

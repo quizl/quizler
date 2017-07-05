@@ -23,6 +23,7 @@ class TestCreateParser(unittest.TestCase):
 
 class TestMain(unittest.TestCase):
     @mock.patch('main.get_common_terms')
+    @mock.patch('main.get_api_envs', mock.Mock(return_value=[]))
     @mock.patch('sys.argv', ['', 'common'])
     def test_common(self, mock_get_common_terms):
         main()

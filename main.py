@@ -2,6 +2,7 @@
 
 import argparse
 
+from src.lib import get_api_envs
 from src.utils import get_common_terms
 
 
@@ -16,8 +17,9 @@ def create_parser():
 def main():
     parser = create_parser()
     args = parser.parse_args()
+    api_envs = get_api_envs()
     if args.command == 'common':
-        get_common_terms()
+        get_common_terms(*api_envs)
 
 
 if __name__ == '__main__':
