@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 
 from main import create_parser, main
+from tests.src.test_lib import mock_envs
 
 
 class TestCreateParser(unittest.TestCase):
@@ -20,11 +21,30 @@ class TestCreateParser(unittest.TestCase):
         args = self.parser.parse_args(['common'])
         self.assertEqual(args.command, 'common')
 
+    def test_apply_command_without_args(self):
+        with self.assertRaises(SystemExit):
+            self.parser.parse_args(['apply'])
 
+    def test_apply_command_with_all_args(self):
+        args = self.parser.parse_args(['apply', 'pattern', 'repl', 'set_name'])
+        self.assertEqual(args.command, 'apply')
+        self.assertEqual(args.pattern, 'pattern')
+        self.assertEqual(args.repl, 'repl')
+        self.assertEqual(args.set_name, 'set_name')
+
+
+@mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
     @mock.patch('main.get_common_terms')
-    @mock.patch('main.get_api_envs', mock.Mock(return_value=[]))
     @mock.patch('sys.argv', ['', 'common'])
     def test_common(self, mock_get_common_terms):
         main()
         mock_get_common_terms.assert_called_once()
+
+    @mock.patch('main.apply_regex')
+    @mock.patch('sys.argv', ['', 'apply', 'pattern', 'repl', 'set_name'])
+    def test_apply(self, mock_apply_regex):
+        main()
+        mock_apply_regex.assert_called_once()
+
+# ToDo: add decorator for mocking system arguments

@@ -1,23 +1,8 @@
-import os
 import unittest
-from functools import wraps
 from unittest import mock
 
 from src.lib import api_call, get_api_envs
-
-
-def mock_envs(**envs):
-    """Mock environment variables for test."""
-
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            with mock.patch.dict(os.environ, envs, clear=True):
-                func(*args, **kwargs)
-
-        return wrapper
-
-    return decorator
+from tests.utils import mock_envs
 
 
 class TestGetApiEnvs(unittest.TestCase):

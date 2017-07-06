@@ -1,4 +1,5 @@
 """User-available utilities."""
+# ToDo: rename the module
 
 from itertools import combinations
 
@@ -19,3 +20,8 @@ def get_common_terms(*api_envs):
         common_terms.append(
             (word_set_1, word_set_2, word_set_1.has_common(word_set_2)))
     return common_terms
+
+
+def apply_regex(pattern, repl, set_name, *api_envs):
+    """Apply regex replace to all terms in word set."""
+    raise NotImplementedError  # ToDo: complete the utility
