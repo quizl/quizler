@@ -21,6 +21,10 @@ class TestCreateParser(unittest.TestCase):
         args = self.parser.parse_args(['common'])
         self.assertEqual(args.command, 'common')
 
+    def test_sets_command(self):
+        args = self.parser.parse_args(['sets'])
+        self.assertEqual(args.command, 'sets')
+
     def test_apply_command_without_args(self):
         with self.assertRaises(SystemExit):
             self.parser.parse_args(['apply'])
@@ -40,6 +44,12 @@ class TestMain(unittest.TestCase):
     def test_common(self, mock_get_common_terms):
         main()
         mock_get_common_terms.assert_called_once()
+
+    @mock.patch('main.get_user_sets')
+    @mock_argv('sets')
+    def test_sets(self, mock_get_user_sets):
+        main()
+        mock_get_user_sets.assert_called_once()
 
     @mock.patch('main.apply_regex')
     @mock_argv('apply', 'pattern', 'repl', 'set_name')

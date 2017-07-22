@@ -22,6 +22,11 @@ def get_common_terms(*api_envs):
     return common_terms
 
 
+def get_user_sets(*api_envs):
+    """Find all user sets."""
+    raise NotImplementedError  # ToDo: complete the utility
+
+
 def apply_regex(pattern, repl, set_name, *api_envs):
     """Apply regex replace to all terms in word set."""
     raise NotImplementedError  # ToDo: complete the utility
