@@ -40,10 +40,12 @@ class TestCreateParser(unittest.TestCase):
 @mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
     @mock.patch('main.get_common_terms')
+    @mock.patch('main.print_common_terms')
     @mock_argv('common')
-    def test_common(self, mock_get_common_terms):
+    def test_common(self, mock_get_common_terms, mock_print_common_terms):
         main()
         mock_get_common_terms.assert_called_once()
+        mock_print_common_terms.assert_called_once()
 
     @mock.patch('main.get_user_sets')
     @mock_argv('sets')

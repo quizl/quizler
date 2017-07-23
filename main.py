@@ -3,7 +3,8 @@
 import argparse
 
 from src.lib import get_api_envs
-from src.utils import get_common_terms, apply_regex, get_user_sets
+from src.utils import get_common_terms, apply_regex, get_user_sets, \
+    print_common_terms
 
 
 def create_parser():
@@ -31,7 +32,8 @@ def main():
     args = parser.parse_args()
     api_envs = get_api_envs()
     if args.command == 'common':
-        get_common_terms(*api_envs)
+        common_terms = get_common_terms(*api_envs)
+        print_common_terms(common_terms)
     elif args.command == 'sets':
         get_user_sets(*api_envs)
     elif args.command == 'apply':

@@ -1,6 +1,9 @@
 """Utilities for tests."""
 
 import inspect
+import io
+import sys
+import unittest
 from functools import wraps
 from unittest import mock
 
@@ -50,5 +53,17 @@ def mock_argv(*cli_args):
             return wrapper
 
     return decorator
+
+
+class MockStdoutTestCase(unittest.TestCase):
+    def setUp(self):
+        patcher = mock.patch('sys.stdout', new=io.StringIO())
+        self.addCleanup(patcher.stop)
+        patcher.start()
+
+    def assertStdout(self, expected, new_line=True):
+        expected += '\n' if new_line else ''
+        self.assertEqual(expected, sys.stdout.getvalue())
+
 
 # ToDo: remove duplicated lines

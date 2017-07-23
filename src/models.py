@@ -1,4 +1,5 @@
 """OOP models for Quizlet terms abstractions."""
+from typing import List, Dict
 
 
 class Term:
@@ -18,7 +19,7 @@ class Term:
 class WordSet:
     """Quizlet set of terms and descriptions abstraction."""
 
-    def __init__(self, title, terms):
+    def __init__(self, title: str, terms: List[Dict]):
         self.title = title
         self.terms = terms  # ToDo: separate abstraction for Term
 
