@@ -10,11 +10,11 @@ from src.models import WordSet
 
 def get_common_terms(*api_envs) -> List[Tuple[WordSet, WordSet, Set[str]]]:
     """Get all term duplicates across all user word sets."""
-    response = api_call('sets', *api_envs)
+    data = api_call('sets', *api_envs)
     word_sets = []
     common_terms = []
 
-    for word_set in response.json():
+    for word_set in data:
         word_sets.append(WordSet(word_set['title'], word_set['terms']))
 
     for word_set_1, word_set_2 in combinations(word_sets, 2):

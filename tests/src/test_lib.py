@@ -43,3 +43,11 @@ class TestApiCall(unittest.TestCase):
             'https://api.quizlet.com/2.0/users/user_id/end_point',
             {'client_id': 'client_id'}
         )
+
+    @mock.patch('requests.get')
+    def test_correct_output_was_returned(self, mock_get):
+        response = mock.Mock()
+        response.status_code = 200
+        mock_get.return_value = response
+        data = api_call('end_point', 'client_id', 'user_id')
+        self.assertEqual(data, response.json())

@@ -24,4 +24,4 @@ def api_call(end_point, client_id, user_id):
             f'Unknown end point, server returns {response.status_code}'
         )
     else:
-        return response
+        return response.json()
