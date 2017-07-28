@@ -1,12 +1,43 @@
 import unittest
+from unittest import mock
 
-from src.models import WordSet
-from src.utils import print_common_terms
+from src.utils import print_common_terms, get_common_terms
 from tests.utils import MockStdoutTestCase
 
 
 class TestGetCommonTerms(unittest.TestCase):
-    ...  # ToDo: complete tests
+    @mock.patch('src.utils.api_call')
+    def test_one_common_term(self, mock_api_call):
+        mock_data = [
+            {
+                'title': 'wordset1',
+                'terms': [{'term': 'term1'}, {'term': 'term2'}]
+            },
+            {
+                'title': 'wordset2',
+                'terms': [{'term': 'term2'}, {'term': 'term3'}]
+            }
+        ]
+        mock_api_call.return_value = mock_data
+        self.assertEqual(
+            get_common_terms(),
+            [('wordset1', 'wordset2', {'term2'})]
+        )
+
+    @mock.patch('src.utils.api_call')
+    def test_no_common_terms(self, mock_apy_call):
+        mock_data = [
+            {
+                'title': 'wordset1',
+                'terms': [{'term': 'term1'}, {'term': 'term2'}]
+            },
+            {
+                'title': 'wordset2',
+                'terms': [{'term': 'term3'}, {'term': 'term4'}]
+            }
+        ]
+        mock_apy_call.return_value = mock_data
+        self.assertEqual(get_common_terms(), [])
 
 
 class TestPrintCommonTerms(MockStdoutTestCase):
@@ -15,19 +46,14 @@ class TestPrintCommonTerms(MockStdoutTestCase):
         self.assertStdout('No duplicates')
 
     def test_duplicates_in_one_pair(self):
-        wordset1 = WordSet('wordset1', [])
-        wordset2 = WordSet('wordset2', [])
-        print_common_terms([(wordset1, wordset2, {'term1'})])
+        print_common_terms([('wordset1', 'wordset2', {'term1'})])
         self.assertStdout('wordset1 and wordset2 have in common:\n'
                           '    term1')
 
     def test_duplicates_in_multiple_pairs(self):
-        wordset1 = WordSet('wordset1', [])
-        wordset2 = WordSet('wordset2', [])
-        wordset3 = WordSet('wordset3', [])
         print_common_terms([
-            (wordset1, wordset2, {'term12'}),
-            (wordset2, wordset3, {'term23'})
+            ('wordset1', 'wordset2', {'term12'}),
+            ('wordset2', 'wordset3', {'term23'})
         ])
         self.assertStdout('wordset1 and wordset2 have in common:\n'
                           '    term12\n'

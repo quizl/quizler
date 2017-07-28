@@ -8,23 +8,23 @@ from src.lib import api_call
 from src.models import WordSet
 
 
-def get_common_terms(*api_envs) -> List[Tuple[WordSet, WordSet, Set[str]]]:
+def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:
     """Get all term duplicates across all user word sets."""
     data = api_call('sets', *api_envs)
-    word_sets = []
+    wordsets = []
     common_terms = []
 
-    for word_set in data:
-        word_sets.append(WordSet(word_set['title'], word_set['terms']))
+    for wordset in data:
+        wordsets.append(WordSet(wordset['title'], wordset['terms']))
 
-    for word_set_1, word_set_2 in combinations(word_sets, 2):
-        has_in_common = word_set_1.has_common(word_set_2)
-        if has_in_common:
-            common_terms.append((word_set_1, word_set_2, has_in_common))
+    for wordset1, wordset2 in combinations(wordsets, 2):
+        common = wordset1.has_common(wordset2)
+        if common:
+            common_terms.append((wordset1.title, wordset2.title, common))
     return common_terms
 
 
-def print_common_terms(common_terms: List[Tuple[WordSet, WordSet, Set[str]]]):
+def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
     """Print common terms for each pair of word sets."""
     if not common_terms:
         print('No duplicates')
