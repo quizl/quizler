@@ -2,8 +2,7 @@
 
 import argparse
 
-from src.lib import get_api_envs
-from src.utils import get_common_terms, apply_regex, get_user_sets, \
+from quizler import get_api_envs, get_common_terms, apply_regex, get_user_sets, \
     print_common_terms
 
 

@@ -4,8 +4,8 @@
 from itertools import combinations
 from typing import List, Tuple, Set
 
-from src.lib import api_call
-from src.models import WordSet
+from quizler.lib import api_call
+from quizler.models import WordSet
 
 
 def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:

@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from src.lib import api_call, get_api_envs
+from quizler.lib import api_call, get_api_envs
 from tests.utils import mock_envs
 
 

@@ -1,12 +1,12 @@
 import unittest
 from unittest import mock
 
-from src.utils import print_common_terms, get_common_terms
+from quizler.utils import print_common_terms, get_common_terms
 from tests.utils import MockStdoutTestCase
 
 
 class TestGetCommonTerms(unittest.TestCase):
-    @mock.patch('src.utils.api_call')
+    @mock.patch('quizler.utils.api_call')
     def test_one_common_term(self, mock_api_call):
         mock_data = [
             {
@@ -24,7 +24,7 @@ class TestGetCommonTerms(unittest.TestCase):
             [('wordset1', 'wordset2', {'term2'})]
         )
 
-    @mock.patch('src.utils.api_call')
+    @mock.patch('quizler.utils.api_call')
     def test_no_common_terms(self, mock_apy_call):
         mock_data = [
             {

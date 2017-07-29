@@ -1,6 +1,6 @@
 import unittest
 
-from src.models import WordSet, Term
+from quizler.models import WordSet, Term
 
 
 class TestTerm(unittest.TestCase):
