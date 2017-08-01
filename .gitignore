@@ -12,3 +12,6 @@ envs.py
 
 # Generated docs
 README.rst
+
+# PyPi credentials
+.pypirc
