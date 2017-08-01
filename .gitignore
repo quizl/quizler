@@ -4,9 +4,6 @@
 # Python byte code
 __pycache__/
 
-# Sensetive data
-envs.py
-
 # Test cached data
 .cache/
 
