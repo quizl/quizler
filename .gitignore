@@ -10,9 +10,6 @@ __pycache__/
 # Generated docs
 README.rst
 
-# PyPi credentials
-.pypirc
-
 # Distribution temp data
 dist/
 *.egg-info
