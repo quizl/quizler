@@ -2,8 +2,8 @@
 
 import argparse
 
-from quizler import get_api_envs, get_common_terms, apply_regex, get_user_sets, \
-    print_common_terms
+from quizler import get_api_envs, get_common_terms, apply_regex, get_user_sets
+from quizler.utils import print_common_terms
 
 
 def create_parser():
