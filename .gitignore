@@ -9,3 +9,6 @@ envs.py
 
 # Test cached data
 .cache/
+
+# Generated docs
+README.rst
