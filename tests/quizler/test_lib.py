@@ -6,6 +6,7 @@ from tests.utils import mock_envs
 
 
 class TestGetApiEnvs(unittest.TestCase):
+
     @mock_envs()
     def test_no_envs(self):
         with self.assertRaises(ValueError):
@@ -29,6 +30,7 @@ class TestGetApiEnvs(unittest.TestCase):
 
 
 class TestApiCall(unittest.TestCase):
+
     @mock.patch('requests.get')
     def test_unknown_endpoint(self, mock_get):
         mock_get.return_value.status_code = 404

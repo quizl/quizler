@@ -6,6 +6,7 @@ from tests.utils import mock_envs, mock_argv
 
 
 class TestCreateParser(unittest.TestCase):
+
     def setUp(self):
         self.parser = create_parser()
 
@@ -39,6 +40,7 @@ class TestCreateParser(unittest.TestCase):
 
 @mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
+
     @mock.patch('main.get_common_terms')
     @mock.patch('main.print_common_terms')
     @mock_argv('common')

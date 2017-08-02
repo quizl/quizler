@@ -4,6 +4,7 @@ from quizler.models import WordSet, Term
 
 
 class TestTerm(unittest.TestCase):
+
     def test_correct_init(self):
         raw_data = {
             'definition': 'term definition',
@@ -25,6 +26,7 @@ class TestTerm(unittest.TestCase):
 
 
 class TestWordSet(unittest.TestCase):
+
     def setUp(self):
         self.word_set_1 = WordSet('WordSet1', [
             {'term': 'term1'},

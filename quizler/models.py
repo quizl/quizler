@@ -2,11 +2,13 @@
 from typing import List, Dict
 
 
+# ToDo: base class for Term and WordSet
 class Term:
     """Quizlet term abstraction."""
 
     def __init__(self, raw_data):
         try:
+            # ToDo: type annotations
             self.definition = raw_data['definition']
             self.id = raw_data['id']
             self.image = raw_data['image']
@@ -19,9 +21,14 @@ class Term:
 class WordSet:
     """Quizlet set of terms and descriptions abstraction."""
 
-    def __init__(self, title: str, terms: List[Dict]):
-        self.title = title
-        self.terms = terms  # ToDo: separate abstraction for Term
+    def __init__(self, raw_data):
+        try:
+            self.set_id: int = raw_data['id']
+            self.title: str = raw_data['title']
+            # ToDo: separate abstraction
+            self.terms: List[Dict] = raw_data['terms']
+        except KeyError:
+            raise ValueError('Unexpected set json structure')
 
     def has_common(self, other):
         """Return set of common words between two word sets."""

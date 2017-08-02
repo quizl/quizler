@@ -5,8 +5,9 @@ from quizler.utils import print_common_terms, get_common_terms
 from tests.utils import MockStdoutTestCase
 
 
+@mock.patch('quizler.utils.api_call')
 class TestGetCommonTerms(unittest.TestCase):
-    @mock.patch('quizler.utils.api_call')
+
     def test_one_common_term(self, mock_api_call):
         mock_data = [
             {
@@ -24,7 +25,6 @@ class TestGetCommonTerms(unittest.TestCase):
             [('wordset1', 'wordset2', {'term2'})]
         )
 
-    @mock.patch('quizler.utils.api_call')
     def test_no_common_terms(self, mock_apy_call):
         mock_data = [
             {
@@ -41,6 +41,7 @@ class TestGetCommonTerms(unittest.TestCase):
 
 
 class TestPrintCommonTerms(MockStdoutTestCase):
+
     def test_no_duplicates(self):
         print_common_terms([])
         self.assertStdout('No duplicates')
@@ -59,3 +60,13 @@ class TestPrintCommonTerms(MockStdoutTestCase):
                           '    term12\n'
                           'wordset2 and wordset3 have in common:\n'
                           '    term23')
+
+
+@mock.patch('quizler.utils.api_call')
+class TestGetUserSets(unittest.TestCase):
+
+    def test_there_are_sets(self):
+        pass
+
+    def test_there_are_no_sets(self):
+        pass

@@ -15,7 +15,7 @@ def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:
     common_terms = []
 
     for wordset in data:
-        wordsets.append(WordSet(wordset['title'], wordset['terms']))
+        wordsets.append(WordSet(wordset))
 
     for wordset1, wordset2 in combinations(wordsets, 2):
         common = wordset1.has_common(wordset2)
@@ -38,6 +38,9 @@ def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
 
 def get_user_sets(*api_envs):
     """Find all user sets."""
+
+    # https://api.quizlet.com/2.0/users/USERNAME/sets
+
     raise NotImplementedError  # ToDo: complete the utility
 
 

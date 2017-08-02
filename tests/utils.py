@@ -56,6 +56,7 @@ def mock_argv(*cli_args):
 
 
 class MockStdoutTestCase(unittest.TestCase):
+
     def setUp(self):
         patcher = mock.patch('sys.stdout', new=io.StringIO())
         self.addCleanup(patcher.stop)
