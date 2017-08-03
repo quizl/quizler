@@ -28,14 +28,18 @@ class TestTerm(unittest.TestCase):
 class TestWordSet(unittest.TestCase):
 
     def setUp(self):
-        self.word_set_1 = WordSet('WordSet1', [
-            {'term': 'term1'},
-            {'term': 'term2'}
-        ])
-        self.word_set_2 = WordSet('WordSet2', [
-            {'term': 'term2'},
-            {'term': 'term3'}
-        ])
+        self.word_set_1 = WordSet({
+            'id': 0,
+            'title': 'WordSet1',
+            'terms': [{'term': 'term1'},
+                      {'term': 'term2'}]
+        })
+        self.word_set_2 = WordSet({
+            'id': 1,
+            'title': 'WordSet2',
+            'terms': [{'term': 'term2'},
+                      {'term': 'term3'}]
+        })
 
     def test_terms_set(self):
         self.assertSetEqual(self.word_set_1.term_set, {'term1', 'term2'})

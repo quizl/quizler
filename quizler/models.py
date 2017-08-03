@@ -25,7 +25,7 @@ class WordSet:
         try:
             self.set_id: int = raw_data['id']
             self.title: str = raw_data['title']
-            # ToDo: separate abstraction
+            # ToDo: separate abstraction for Terms
             self.terms: List[Dict] = raw_data['terms']
         except KeyError:
             raise ValueError('Unexpected set json structure')

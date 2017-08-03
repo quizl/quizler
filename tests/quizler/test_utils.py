@@ -11,10 +11,12 @@ class TestGetCommonTerms(unittest.TestCase):
     def test_one_common_term(self, mock_api_call):
         mock_data = [
             {
+                'id': 0,
                 'title': 'wordset1',
                 'terms': [{'term': 'term1'}, {'term': 'term2'}]
             },
             {
+                'id': 1,
                 'title': 'wordset2',
                 'terms': [{'term': 'term2'}, {'term': 'term3'}]
             }
@@ -28,10 +30,12 @@ class TestGetCommonTerms(unittest.TestCase):
     def test_no_common_terms(self, mock_apy_call):
         mock_data = [
             {
+                'id': 0,
                 'title': 'wordset1',
                 'terms': [{'term': 'term1'}, {'term': 'term2'}]
             },
             {
+                'id': 1,
                 'title': 'wordset2',
                 'terms': [{'term': 'term3'}, {'term': 'term4'}]
             }
@@ -65,8 +69,8 @@ class TestPrintCommonTerms(MockStdoutTestCase):
 @mock.patch('quizler.utils.api_call')
 class TestGetUserSets(unittest.TestCase):
 
-    def test_there_are_sets(self):
+    def test_there_are_sets(self, mock_api_call):
         pass
 
-    def test_there_are_no_sets(self):
+    def test_there_are_no_sets(self, mock_api_call):
         pass
