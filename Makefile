@@ -1,8 +1,10 @@
 help:
 	@echo "    test"
 	@echo "        Run all the tests."
-	@echo "    requirements"
+	@echo "    deps"
 	@echo "        Install all requirements in the active environment."
+	@echo "    update"
+	@echo "        Update requirements."
 	@echo "    docs"
 	@echo "        Convert markdown docs to rst for PyPI."
 
@@ -11,9 +13,16 @@ test:
 	python -m pytest tests/
 	@echo "Done"
 
-requirements:
+deps:
 	@echo "Installing requirements..."
 	pip install -r requirements.txt
+	@echo "Done"
+
+update:
+	@echo "Updating pur..."
+	pip install -U pur
+	@echo "Updating requirements..."
+	pur -r requirements.txt
 	@echo "Done"
 
 docs:

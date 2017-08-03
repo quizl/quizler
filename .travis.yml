@@ -6,7 +6,7 @@ python:
   - '3.6'
 
 install:
-  - make requirements
+  - make deps
 
 script:
   - make test
