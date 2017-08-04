@@ -41,6 +41,14 @@ class WordSet:
         """Set of all terms in WordSet."""
         return {term['term'] for term in self.terms}
 
+    def __eq__(self, other):
+        # ToDo: introduce better solution
+        return all((
+            self.set_id == other.set_id,
+            self.title == other.title,
+            self.terms == other.terms
+        ))
+
     def __str__(self):
         return f'{self.title}'
 

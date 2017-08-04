@@ -8,14 +8,21 @@ from quizler.lib import api_call
 from quizler.models import WordSet
 
 
+def get_user_sets(*api_envs):
+    """Find all user sets."""
+    data = api_call('sets', *api_envs)
+    return [WordSet(wordset) for wordset in data]
+
+
+def print_user_sets(wordsets: List[WordSet]):
+    """Print all user sets by title and id."""
+    pass
+
+
 def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:
     """Get all term duplicates across all user word sets."""
-    data = api_call('sets', *api_envs)
-    wordsets = []
     common_terms = []
-
-    for wordset in data:
-        wordsets.append(WordSet(wordset))
+    wordsets = get_user_sets(*api_envs)
 
     for wordset1, wordset2 in combinations(wordsets, 2):
         common = wordset1.has_common(wordset2)
@@ -34,14 +41,6 @@ def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
             print(f'{set1} and {set2} have in common:')
             for term in terms:
                 print(f'    {term}')
-
-
-def get_user_sets(*api_envs):
-    """Find all user sets."""
-
-    # https://api.quizlet.com/2.0/users/USERNAME/sets
-
-    raise NotImplementedError  # ToDo: complete the utility
 
 
 def apply_regex(pattern, repl, set_name, *api_envs):

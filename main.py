@@ -3,7 +3,7 @@
 import argparse
 
 from quizler import get_api_envs, get_common_terms, apply_regex, get_user_sets
-from quizler.utils import print_common_terms
+from quizler.utils import print_common_terms, print_user_sets
 
 
 def create_parser():
@@ -34,7 +34,8 @@ def main():
         common_terms = get_common_terms(*api_envs)
         print_common_terms(common_terms)
     elif args.command == 'sets':
-        get_user_sets(*api_envs)
+        user_sets = get_user_sets(*api_envs)
+        print_user_sets(user_sets)
     elif args.command == 'apply':
         apply_regex(args.pattern, args.repl, args.set_name, *api_envs)
 

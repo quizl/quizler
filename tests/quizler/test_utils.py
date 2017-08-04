@@ -1,46 +1,39 @@
 import unittest
 from unittest import mock
 
-from quizler.utils import print_common_terms, get_common_terms
+from quizler.models import WordSet
+from quizler.utils import print_common_terms, get_common_terms, get_user_sets
 from tests.utils import MockStdoutTestCase
 
 
-@mock.patch('quizler.utils.api_call')
+@mock.patch('quizler.utils.get_user_sets')
 class TestGetCommonTerms(unittest.TestCase):
 
-    def test_one_common_term(self, mock_api_call):
+    def test_one_common_term(self, mock_get_user_sets):
         mock_data = [
-            {
-                'id': 0,
-                'title': 'wordset1',
-                'terms': [{'term': 'term1'}, {'term': 'term2'}]
-            },
-            {
-                'id': 1,
-                'title': 'wordset2',
-                'terms': [{'term': 'term2'}, {'term': 'term3'}]
-            }
+            WordSet({'id': 0,
+                     'title': 'wordset1',
+                     'terms': [{'term': 'term1'}, {'term': 'term2'}]}),
+            WordSet({'id': 1,
+                     'title': 'wordset2',
+                     'terms': [{'term': 'term2'}, {'term': 'term3'}]}),
         ]
-        mock_api_call.return_value = mock_data
+        mock_get_user_sets.return_value = mock_data
         self.assertEqual(
             get_common_terms(),
             [('wordset1', 'wordset2', {'term2'})]
         )
 
-    def test_no_common_terms(self, mock_apy_call):
+    def test_no_common_terms(self, mock_get_user_sets):
         mock_data = [
-            {
-                'id': 0,
-                'title': 'wordset1',
-                'terms': [{'term': 'term1'}, {'term': 'term2'}]
-            },
-            {
-                'id': 1,
-                'title': 'wordset2',
-                'terms': [{'term': 'term3'}, {'term': 'term4'}]
-            }
+            WordSet({'id': 0,
+                     'title': 'wordset1',
+                     'terms': [{'term': 'term1'}, {'term': 'term2'}]}),
+            WordSet({'id': 1,
+                     'title': 'wordset2',
+                     'terms': [{'term': 'term3'}, {'term': 'term4'}]})
         ]
-        mock_apy_call.return_value = mock_data
+        mock_get_user_sets.return_value = mock_data
         self.assertEqual(get_common_terms(), [])
 
 
@@ -70,7 +63,31 @@ class TestPrintCommonTerms(MockStdoutTestCase):
 class TestGetUserSets(unittest.TestCase):
 
     def test_there_are_sets(self, mock_api_call):
-        pass
+        mock_data = [
+            {
+                'id': 0,
+                'title': 'wordset1',
+                'terms': [{'term': 'term1'}, {'term': 'term2'}]
+            },
+            {
+                'id': 1,
+                'title': 'wordset2',
+                'terms': [{'term': 'term3'}, {'term': 'term4'}]
+            }
+        ]
+        # ToDo: bad testing - same logic in the code
+        wordsets = [WordSet(wordset) for wordset in mock_data]
+        mock_api_call.return_value = mock_data
+        self.assertEqual(get_user_sets(), wordsets)
 
     def test_there_are_no_sets(self, mock_api_call):
-        pass
+        mock_api_call.return_value = []
+        self.assertEqual(get_user_sets(), [])
+
+
+class TestPrintUserSets(MockStdoutTestCase):
+    ...
+
+
+class TestApplyRegex(unittest.TestCase):
+    ...
