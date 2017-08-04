@@ -16,7 +16,12 @@ def get_user_sets(*api_envs):
 
 def print_user_sets(wordsets: List[WordSet]):
     """Print all user sets by title and id."""
-    pass
+    if not wordsets:
+        print('No sets found')
+    else:
+        print(f'Found sets: {len(wordsets)}')
+        for wordset in wordsets:
+            print(f'    {wordset}')
 
 
 def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:

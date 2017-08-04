@@ -2,7 +2,8 @@ import unittest
 from unittest import mock
 
 from quizler.models import WordSet
-from quizler.utils import print_common_terms, get_common_terms, get_user_sets
+from quizler.utils import print_common_terms, get_common_terms, get_user_sets, \
+    print_user_sets
 from tests.utils import MockStdoutTestCase
 
 
@@ -86,7 +87,24 @@ class TestGetUserSets(unittest.TestCase):
 
 
 class TestPrintUserSets(MockStdoutTestCase):
-    ...
+
+    def test_no_sets(self):
+        print_user_sets([])
+        self.assertStdout('No sets found')
+
+    def test_one_set(self):
+        print_user_sets([WordSet({'id': 0, 'title': 'wordset0', 'terms': []})])
+        self.assertStdout('Found sets: 1\n'
+                          '    wordset0')
+
+    def test_two_sets(self):
+        print_user_sets([
+            WordSet({'id': 0, 'title': 'wordset0', 'terms': []}),
+            WordSet({'id': 1, 'title': 'wordset1', 'terms': []}),
+        ])
+        self.assertStdout('Found sets: 2\n'
+                          '    wordset0\n'
+                          '    wordset1')
 
 
 class TestApplyRegex(unittest.TestCase):
