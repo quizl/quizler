@@ -1,8 +1,8 @@
 help:
 	@echo "    deps"
 	@echo "        Install all requirements in the active environment."
-	@echo "    dist"
-	@echo "        Create distribution to publish on PyPI."
+	@echo "    build"
+	@echo "        Build distribution to publish on PyPI and remove old."
 	@echo "    docs"
 	@echo "        Convert markdown docs to rst for PyPI."
 	@echo "    publish"
@@ -19,8 +19,9 @@ deps:
 	pip install -r requirements.txt
 	@echo "Done"
 
-dist:
+build:
 	@echo "Making distribution..."
+	rm dist/*
 	python setup.py sdist
 	@echo "Done"
 
@@ -33,7 +34,7 @@ publish:
 	@echo "Publish package to PyPI..."
 	make test
 	make docs
-	make dist
+	make build
 	make upload
 	@echo "Done"
 
