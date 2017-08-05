@@ -34,6 +34,7 @@ publish:
 	make test
 	make docs
 	make dist
+	make upload
 	@echo "Done"
 
 test:
