@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from main import create_parser, main
+from quizler.main import create_parser, main
 from tests.utils import mock_envs, mock_argv
 
 
@@ -41,21 +41,21 @@ class TestCreateParser(unittest.TestCase):
 @mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
 
-    @mock.patch('main.get_common_terms')
-    @mock.patch('main.print_common_terms')
+    @mock.patch('quizler.main.get_common_terms')
+    @mock.patch('quizler.main.print_common_terms')
     @mock_argv('common')
     def test_common(self, mock_get_common_terms, mock_print_common_terms):
         main()
         mock_get_common_terms.assert_called_once()
         mock_print_common_terms.assert_called_once()
 
-    @mock.patch('main.get_user_sets')
+    @mock.patch('quizler.main.get_user_sets')
     @mock_argv('sets')
     def test_sets(self, mock_get_user_sets):
         main()
         mock_get_user_sets.assert_called_once()
 
-    @mock.patch('main.apply_regex')
+    @mock.patch('quizler.main.apply_regex')
     @mock_argv('apply', 'pattern', 'repl', 'set_name')
     def test_apply(self, mock_apply_regex):
         main()

@@ -14,7 +14,7 @@ setup(
     keywords=['quizlet', 'api'],
     entry_points={
         'console_scripts': [
-            'quizler = main:main'
+            'quizler = quizler.main:main'
         ]
     },
     install_requires=['requests'],
