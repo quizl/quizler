@@ -10,7 +10,7 @@ setup(
     author='Pavel Karateev',
     author_email='karateev.pavel@ya.ru',
     url='https://github.com/lancelote/quizler',
-    download_url='https://github.com/lancelote/quizler/archive/0.0.1.tar.gz',
+    download_url='https://github.com/lancelote/quizler/archive/0.0.3.tar.gz',
     keywords=['quizlet', 'api'],
     entry_points={
         'console_scripts': [
