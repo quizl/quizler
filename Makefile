@@ -21,7 +21,7 @@ deps:
 
 build:
 	@echo "Making distribution..."
-	rm dist/*
+	rm -f dist/*
 	python setup.py sdist
 	@echo "Done"
 

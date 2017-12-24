@@ -19,9 +19,9 @@ def print_user_sets(wordsets: List[WordSet]):
     if not wordsets:
         print('No sets found')
     else:
-        print(f'Found sets: {len(wordsets)}')
+        print('Found sets: {}'.format(len(wordsets)))
         for wordset in wordsets:
-            print(f'    {wordset}')
+            print('    {}'.format(wordset))
 
 
 def get_common_terms(*api_envs) -> List[Tuple[str, str, Set[str]]]:
@@ -43,9 +43,9 @@ def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
     else:
         for set_pair in common_terms:
             set1, set2, terms = set_pair
-            print(f'{set1} and {set2} have in common:')
+            print('{} and {} have in common:'.format(set1, set2))
             for term in terms:
-                print(f'    {term}')
+                print('    {}'.format(term))
 
 
 def apply_regex(pattern, repl, set_name, *api_envs):

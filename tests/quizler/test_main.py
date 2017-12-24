@@ -41,22 +41,22 @@ class TestCreateParser(unittest.TestCase):
 @mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
 
-    @mock.patch('quizler.main.get_common_terms')
     @mock.patch('quizler.main.print_common_terms')
+    @mock.patch('quizler.main.get_common_terms')
     @mock_argv('common')
     def test_common(self, mock_get_common_terms, mock_print_common_terms):
         main()
-        mock_get_common_terms.assert_called_once()
-        mock_print_common_terms.assert_called_once()
+        mock_get_common_terms.assert_called_once_with('client_id', 'user_id')
+        mock_print_common_terms.assert_called_once_with(mock.ANY)
 
     @mock.patch('quizler.main.get_user_sets')
     @mock_argv('sets')
     def test_sets(self, mock_get_user_sets):
         main()
-        mock_get_user_sets.assert_called_once()
+        mock_get_user_sets.assert_called_once_with('client_id', 'user_id')
 
     @mock.patch('quizler.main.apply_regex')
     @mock_argv('apply', 'pattern', 'repl', 'set_name')
     def test_apply(self, mock_apply_regex):
         main()
-        mock_apply_regex.assert_called_once()
+        mock_apply_regex.assert_called_once_with('pattern', 'repl', 'set_name', 'client_id', 'user_id')
