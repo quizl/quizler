@@ -9,8 +9,8 @@ Collection of utils for Quizlet flash cards
 
 Tested on:
 
-- Python 3.6.1
-- macOS
+- macOS / Python 3.6.1
+- Ubuntu 14.04 / Python 3.5.3
 
 To install Python requirements (virtualenv is recommended):
 

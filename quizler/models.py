@@ -23,10 +23,10 @@ class WordSet:
 
     def __init__(self, raw_data):
         try:
-            self.set_id: int = raw_data['id']
-            self.title: str = raw_data['title']
+            self.set_id = raw_data['id']
+            self.title = raw_data['title']
             # ToDo: separate abstraction for Terms
-            self.terms: List[Dict] = raw_data['terms']
+            self.terms = raw_data['terms']
         except KeyError:
             raise ValueError('Unexpected set json structure')
 
@@ -50,6 +50,6 @@ class WordSet:
         ))
 
     def __str__(self):
-        return f'{self.title}'
+        return '{}'.format(self.title)
 
     __repr__ = __str__
