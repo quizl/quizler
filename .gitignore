@@ -2,6 +2,7 @@
 .idea/
 
 # Python byte code
+*.pyc
 __pycache__/
 
 # Test cached data
