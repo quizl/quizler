@@ -8,7 +8,6 @@ class Term:
 
     def __init__(self, raw_data):
         try:
-            # ToDo: type annotations
             self.definition = raw_data['definition']
             self.id = raw_data['id']
             self.image = raw_data['image']
