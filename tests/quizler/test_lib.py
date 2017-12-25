@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use,missing-docstring,invalid-name
+
 import unittest
 from unittest import mock
 

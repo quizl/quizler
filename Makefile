@@ -9,6 +9,8 @@ help:
 	@echo "        Make all pre-checks and publish to PyPI."
 	@echo "    test"
 	@echo "        Run all the tests."
+	@echo "    lint"
+	@echo "        Run the linters."
 	@echo "    update"
 	@echo "        Update requirements."
 	@echo "    upload"
@@ -33,6 +35,7 @@ docs:
 publish:
 	@echo "Publish package to PyPI..."
 	make test
+	make lint
 	make docs
 	make build
 	make upload
@@ -41,6 +44,11 @@ publish:
 test:
 	@echo "Running tests..."
 	python -m pytest tests/
+	@echo "Done"
+
+lint:
+	@echo "Running linters..."
+	python -m pylint quizler/ tests/
 	@echo "Done"
 
 update:

@@ -1,6 +1,4 @@
 """OOP models for Quizlet terms abstractions."""
-from typing import List, Dict
-
 
 # ToDo: base class for Term and WordSet
 class Term:
@@ -9,7 +7,9 @@ class Term:
     def __init__(self, raw_data):
         try:
             self.definition = raw_data['definition']
+            # pylint: disable=invalid-name
             self.id = raw_data['id']
+            # pylint: enable=invalid-name
             self.image = raw_data['image']
             self.rank = raw_data['rank']
             self.term = raw_data['term']

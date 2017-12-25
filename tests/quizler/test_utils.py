@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use,missing-docstring,invalid-name
+
 import unittest
 from unittest import mock
 
@@ -105,7 +107,3 @@ class TestPrintUserSets(MockStdoutTestCase):
         self.assertStdout('Found sets: 2\n'
                           '    wordset0\n'
                           '    wordset1')
-
-
-class TestApplyRegex(unittest.TestCase):
-    ...

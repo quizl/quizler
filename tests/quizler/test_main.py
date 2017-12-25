@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use,missing-docstring,invalid-name
+
 import unittest
 from unittest import mock
 
@@ -59,4 +61,5 @@ class TestMain(unittest.TestCase):
     @mock_argv('apply', 'pattern', 'repl', 'set_name')
     def test_apply(self, mock_apply_regex):
         main()
-        mock_apply_regex.assert_called_once_with('pattern', 'repl', 'set_name', 'client_id', 'user_id')
+        mock_apply_regex.assert_called_once_with('pattern', 'repl', 'set_name', 'client_id',
+                                                 'user_id')
