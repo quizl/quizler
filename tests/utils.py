@@ -1,11 +1,13 @@
+# pylint: disable=missing-docstring,invalid-name
+
 """Utilities for tests."""
 
 import inspect
 import io
 import sys
 import unittest
-from functools import wraps
 from unittest import mock
+from functools import wraps
 
 
 def mock_envs(**envs):
@@ -28,8 +30,7 @@ def mock_envs(**envs):
                 if name.startswith('test_'):
                     setattr(obj, name, decorator(method))
             return obj
-        else:
-            return wrapper
+        return wrapper
 
     return decorator
 
@@ -49,8 +50,7 @@ def mock_argv(*cli_args):
                 if name.startswith('test_'):
                     setattr(obj, name, decorator(method))
             return obj
-        else:
-            return wrapper
+        return wrapper
 
     return decorator
 

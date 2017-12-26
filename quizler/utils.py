@@ -10,7 +10,9 @@ from quizler.models import WordSet
 
 def get_user_sets(*api_envs):
     """Find all user sets."""
+    # pylint: disable=no-value-for-parameter
     data = api_call('sets', *api_envs)
+    # pylint: enable=no-value-for-parameter
     return [WordSet(wordset) for wordset in data]
 
 
@@ -50,4 +52,5 @@ def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
 
 def apply_regex(pattern, repl, set_name, *api_envs):
     """Apply regex replace to all terms in word set."""
+    print('{}, {}, {}, {}'.format(pattern, repl, set_name, api_envs))
     raise NotImplementedError  # ToDo: complete the utility

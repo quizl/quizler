@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring
+
 """Entry point and CLI."""
 
 import argparse
