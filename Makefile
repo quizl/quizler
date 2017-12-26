@@ -11,6 +11,8 @@ help:
 	@echo "        Run all the tests."
 	@echo "    lint"
 	@echo "        Run the linters."
+	@echo "    cov"
+	@echo "        Run all the tests and check the coverage."
 	@echo "    update"
 	@echo "        Update requirements."
 	@echo "    upload"
@@ -36,6 +38,7 @@ publish:
 	@echo "Publish package to PyPI..."
 	make test
 	make lint
+	make cov
 	make docs
 	make build
 	make upload
@@ -49,6 +52,11 @@ test:
 lint:
 	@echo "Running linters..."
 	python -m pylint quizler/ tests/
+	@echo "Done"
+
+cov:
+	@echo "Running tests and checking coverage..."
+	python -m pytest --cov=./ tests/
 	@echo "Done"
 
 update:

@@ -6,11 +6,12 @@
 __pycache__/
 
 # Test cached data
-.cache/
+/.cache/
+/.coverage
 
 # Generated docs
-README.rst
+/README.rst
 
 # Distribution temp data
-dist/
+/dist/
 *.egg-info
