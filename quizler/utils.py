@@ -13,7 +13,7 @@ def get_user_sets(*api_envs):
     # pylint: disable=no-value-for-parameter
     data = api_call('sets', *api_envs)
     # pylint: enable=no-value-for-parameter
-    return [WordSet(wordset) for wordset in data]
+    return [WordSet.from_dict(wordset) for wordset in data]
 
 
 def print_user_sets(wordsets: List[WordSet]):
