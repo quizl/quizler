@@ -12,3 +12,7 @@ install:
 script:
   - make test
   - make lint
+  - make cov
+
+after_success:
+  - codecov
