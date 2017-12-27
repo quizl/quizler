@@ -6,9 +6,7 @@ class Term:
 
     def __init__(self, definition, term_id, image, rank, term):
         self.definition = definition
-        # pylint: disable=invalid-name
-        self.id = term_id
-        # pylint: enable=invalid-name
+        self.term_id = term_id
         self.image = image
         self.rank = rank
         self.term = term
@@ -30,7 +28,7 @@ class Term:
         """Convert Term into raw dictionary data."""
         return {
             'definition': self.definition,
-            'id': self.id,
+            'id': self.term_id,
             'image': self.image,
             'rank': self.rank,
             'term': self.term
@@ -41,7 +39,7 @@ class Term:
             raise ValueError
         return all((
             self.definition == other.definition,
-            self.id == other.id,
+            self.term_id == other.term_id,
             self.image == other.image,
             self.rank == other.rank,
             self.term == other.term
@@ -52,9 +50,7 @@ class WordSet:
     """Quizlet set of terms and descriptions abstraction."""
 
     def __init__(self, set_id, title, terms):
-        # pylint: disable=invalid-name
-        self.id = set_id
-        # pylint: enable=invalid-name
+        self.set_id = set_id
         self.title = title
         self.terms = terms
 
@@ -83,14 +79,14 @@ class WordSet:
     def to_dict(self):
         """Convert WordSet into raw dictionary data."""
         return {
-            'id': self.id,
+            'id': self.set_id,
             'title': self.title,
             'terms': [term.to_dict() for term in self.terms]
         }
 
     def __eq__(self, other):
         return all((
-            self.id == other.id,
+            self.set_id == other.set_id,
             self.title == other.title,
             self.terms == other.terms
         ))
@@ -99,4 +95,4 @@ class WordSet:
         return '{}'.format(self.title)
 
     def __repr__(self):
-        return 'WordSet(id={}, title={})'.format(self.id, self.title)
+        return 'WordSet(id={}, title={})'.format(self.set_id, self.title)

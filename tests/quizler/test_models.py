@@ -18,7 +18,7 @@ class TestTerm(unittest.TestCase):
         }
         term = Term.from_dict(raw_data)
         assert term.definition == 'term definition'
-        assert term.id == 12345
+        assert term.term_id == 12345
         assert term.image is None
         assert term.rank == 0
         assert term.term == 'term'
@@ -30,7 +30,7 @@ class TestTerm(unittest.TestCase):
     def test_correct_init(self):
         term = Term('definition', 1, None, 0, 'term')
         assert term.definition == 'definition'
-        assert term.id == 1
+        assert term.term_id == 1
         assert term.image is None
         assert term.term == 'term'
 
@@ -91,7 +91,7 @@ class TestWordSet(unittest.TestCase):
             ]
         }
         wordset = WordSet.from_dict(raw_data)
-        assert wordset.id == 0
+        assert wordset.set_id == 0
         assert wordset.title == 'title0'
         assert wordset.terms == [Term('definition0', 0, None, 0, 'term0')]
 
@@ -131,9 +131,9 @@ class TestWordSet(unittest.TestCase):
 
     def test_repr(self):
         assert repr(self.word_set_0) == 'WordSet(id={}, title={})'.format(
-            self.word_set_0.id, self.word_set_0.title)
+            self.word_set_0.set_id, self.word_set_0.title)
         assert repr(self.word_set_1) == 'WordSet(id={}, title={})'.format(
-            self.word_set_1.id, self.word_set_1.title)
+            self.word_set_1.set_id, self.word_set_1.title)
 
     def test_str(self):
         assert str(self.word_set_0) == self.word_set_0.title
