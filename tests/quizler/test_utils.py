@@ -78,19 +78,35 @@ class TestGetUserSets(unittest.TestCase):
 class TestPrintUserSets(MockStdoutTestCase):
 
     def test_no_sets(self):
-        print_user_sets([])
+        print_user_sets([], False)
         self.assertStdout('No sets found')
 
     def test_one_set(self):
         wordset = WordSetFactory()
-        print_user_sets([wordset])
+        print_user_sets([wordset], False)
         self.assertStdout('Found sets: 1\n'
                           '    {}'.format(wordset.title))
 
-    def test_two_sets(self):
-        wordset0 = WordSetFactory()
-        wordset1 = WordSetFactory()
-        print_user_sets([wordset0, wordset1])
+    def test_two_sets_without_terms(self):
+        wordset0 = WordSetFactory(terms=[TermFactory(), TermFactory()])
+        wordset1 = WordSetFactory(terms=[TermFactory(), TermFactory()])
+        print_user_sets([wordset0, wordset1], False)
         self.assertStdout('Found sets: 2\n'
                           '    {}\n'
                           '    {}'.format(wordset0.title, wordset1.title))
+
+    def test_two_sets_with_terms(self):
+        term0 = TermFactory()
+        term1 = TermFactory()
+        term2 = TermFactory()
+        wordset0 = WordSetFactory(terms=[term0, term1])
+        wordset1 = WordSetFactory(terms=[term2])
+        print_user_sets([wordset0, wordset1], True)
+        self.assertStdout('Found sets: 2\n'
+                          '    {}\n'
+                          '        {} = {}\n'
+                          '        {} = {}\n'
+                          '    {}\n'
+                          '        {} = {}'
+                          .format(wordset0.title, term0.term, term0.definition, term1.term,
+                                  term1.definition, wordset1.title, term2.term, term2.definition))
