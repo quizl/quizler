@@ -1,5 +1,7 @@
 [MESSAGES CONTROL]
-disable=too-few-public-methods
+disable=too-few-public-methods,
+ duplicate-code,
+ too-many-arguments
 
 [TYPECHECK]
 # False positives on tests accessing sys.stdout's methods:

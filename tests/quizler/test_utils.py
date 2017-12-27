@@ -6,36 +6,32 @@ from unittest import mock
 from quizler.models import WordSet
 from quizler.utils import print_common_terms, get_common_terms, get_user_sets, \
     print_user_sets
+from tests.factories import TermFactory, WordSetFactory
 from tests.utils import MockStdoutTestCase
 
 
 @mock.patch('quizler.utils.get_user_sets')
 class TestGetCommonTerms(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        cls.term0 = TermFactory()
+        cls.term1 = TermFactory()
+        cls.term2 = TermFactory()
+        cls.term3 = TermFactory()
+
     def test_one_common_term(self, mock_get_user_sets):
-        mock_data = [
-            WordSet({'id': 0,
-                     'title': 'wordset1',
-                     'terms': [{'term': 'term1'}, {'term': 'term2'}]}),
-            WordSet({'id': 1,
-                     'title': 'wordset2',
-                     'terms': [{'term': 'term2'}, {'term': 'term3'}]}),
-        ]
+        wordset0 = WordSetFactory(terms=[self.term0, self.term1])
+        wordset1 = WordSetFactory(terms=[self.term1, self.term2])
+        mock_data = [wordset0, wordset1]
         mock_get_user_sets.return_value = mock_data
-        self.assertEqual(
-            get_common_terms(),
-            [('wordset1', 'wordset2', {'term2'})]
-        )
+        assert get_common_terms() == [
+            (wordset0.title, wordset1.title, {self.term1.term})]
 
     def test_no_common_terms(self, mock_get_user_sets):
-        mock_data = [
-            WordSet({'id': 0,
-                     'title': 'wordset1',
-                     'terms': [{'term': 'term1'}, {'term': 'term2'}]}),
-            WordSet({'id': 1,
-                     'title': 'wordset2',
-                     'terms': [{'term': 'term3'}, {'term': 'term4'}]})
-        ]
+        wordset0 = WordSetFactory(terms=[self.term0, self.term1])
+        wordset1 = WordSetFactory(terms=[self.term2, self.term3])
+        mock_data = [wordset0, wordset1]
         mock_get_user_sets.return_value = mock_data
         self.assertEqual(get_common_terms(), [])
 
@@ -66,22 +62,13 @@ class TestPrintCommonTerms(MockStdoutTestCase):
 class TestGetUserSets(unittest.TestCase):
 
     def test_there_are_sets(self, mock_api_call):
-        mock_data = [
-            {
-                'id': 0,
-                'title': 'wordset1',
-                'terms': [{'term': 'term1'}, {'term': 'term2'}]
-            },
-            {
-                'id': 1,
-                'title': 'wordset2',
-                'terms': [{'term': 'term3'}, {'term': 'term4'}]
-            }
-        ]
-        # ToDo: bad testing - same logic in the code
-        wordsets = [WordSet(wordset) for wordset in mock_data]
+        wordset0 = WordSetFactory(terms=[TermFactory()])
+        wordset1 = WordSetFactory(terms=[TermFactory()])
+
+        mock_data = [wordset0.to_dict(), wordset1.to_dict()]
+        wordsets = [WordSet.from_dict(wordset) for wordset in mock_data]
         mock_api_call.return_value = mock_data
-        self.assertEqual(get_user_sets(), wordsets)
+        assert get_user_sets() == wordsets
 
     def test_there_are_no_sets(self, mock_api_call):
         mock_api_call.return_value = []
@@ -95,15 +82,15 @@ class TestPrintUserSets(MockStdoutTestCase):
         self.assertStdout('No sets found')
 
     def test_one_set(self):
-        print_user_sets([WordSet({'id': 0, 'title': 'wordset0', 'terms': []})])
+        wordset = WordSetFactory()
+        print_user_sets([wordset])
         self.assertStdout('Found sets: 1\n'
-                          '    wordset0')
+                          '    {}'.format(wordset.title))
 
     def test_two_sets(self):
-        print_user_sets([
-            WordSet({'id': 0, 'title': 'wordset0', 'terms': []}),
-            WordSet({'id': 1, 'title': 'wordset1', 'terms': []}),
-        ])
+        wordset0 = WordSetFactory()
+        wordset1 = WordSetFactory()
+        print_user_sets([wordset0, wordset1])
         self.assertStdout('Found sets: 2\n'
-                          '    wordset0\n'
-                          '    wordset1')
+                          '    {}\n'
+                          '    {}'.format(wordset0.title, wordset1.title))

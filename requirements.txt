@@ -1,6 +1,7 @@
 requests==2.18.4
 pylint==1.8.1
 pytest==3.3.1
+factory-boy==2.9.2
 pytest-cov==2.5.1
 six==1.11.0 # for pytest-cov
 codecov==2.0.10
