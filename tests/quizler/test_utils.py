@@ -118,13 +118,12 @@ class TestDeleteTerm(unittest.TestCase):
     def test_one_term(self, mock_api_call):
         set_id = 1
         term_id = 2
-        client_id = 3
-        delete_term(set_id, term_id, client_id)
+        access_token = 'token'
+        delete_term(set_id, term_id, access_token)
         mock_api_call.assert_called_once_with(
             'delete',
             'sets/{}/terms/{}'.format(set_id, term_id),
-            {},
-            client_id
+            access_token=access_token
         )
 
 
@@ -134,13 +133,13 @@ class TestAddTerm(unittest.TestCase):
     def test_one_term(self, mock_api_call):
         set_id = 1
         term = TermFactory()
-        client_id = 3
-        add_term(set_id, term, client_id)
+        access_token = 'token'
+        add_term(set_id, term, access_token)
         mock_api_call.assert_called_once_with(
             'post',
             'sets/{}/terms'.format(set_id),
             term.to_dict(),
-            client_id
+            access_token=access_token
         )
 
 
@@ -162,8 +161,9 @@ class TestResetTermStats(unittest.TestCase):
         term_id = self.term0.term_id
         client_id = 1
         user_id = 2
+        access_token = 'token'
         with self.assertRaises(ValueError):
-            reset_term_stats(unknown_set_id, term_id, client_id, user_id)
+            reset_term_stats(unknown_set_id, term_id, client_id, user_id, access_token)
 
     def test_term_not_found(self, mock_get_user_sets):
         mock_get_user_sets.return_value = self.wordsets
@@ -171,8 +171,9 @@ class TestResetTermStats(unittest.TestCase):
         unknown_term_id = -1
         client_id = 1
         user_id = 2
+        access_token = 'token'
         with self.assertRaises(ValueError):
-            reset_term_stats(set_id, unknown_term_id, client_id, user_id)
+            reset_term_stats(set_id, unknown_term_id, client_id, user_id, access_token)
 
     def test_term_has_image(self, mock_get_user_sets):
         mock_get_user_sets.return_value = self.wordsets
@@ -180,8 +181,9 @@ class TestResetTermStats(unittest.TestCase):
         term_id = self.term0.term_id
         client_id = 1
         user_id = 2
+        access_token = 'token'
         with self.assertRaises(NotImplementedError):
-            reset_term_stats(set_id, term_id, client_id, user_id)
+            reset_term_stats(set_id, term_id, client_id, user_id, access_token)
 
     @mock.patch('quizler.utils.add_term')
     @mock.patch('quizler.utils.delete_term')
@@ -191,6 +193,7 @@ class TestResetTermStats(unittest.TestCase):
         term_id = self.term1.term_id
         client_id = 1
         user_id = 2
-        reset_term_stats(set_id, term_id, client_id, user_id)
-        mock_delete_term.assert_called_once_with(set_id, term_id, client_id)
-        mock_add_term.assert_called_once_with(set_id, self.term1, client_id)
+        access_token = 'token'
+        reset_term_stats(set_id, term_id, client_id, user_id, access_token)
+        mock_delete_term.assert_called_once_with(set_id, term_id, access_token)
+        mock_add_term.assert_called_once_with(set_id, self.term1, access_token)

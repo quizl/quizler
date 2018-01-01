@@ -15,13 +15,25 @@ def get_api_envs():
     return client_id, user_id
 
 
-def api_call(method: str, end_point: str, params: Dict[str, str], client_id: str):
+def api_call(method: str, end_point: str, params: Dict[str, str] = None, client_id: str = None,
+             access_token: str = None):
     """Call given API end_point with API keys."""
+    if bool(client_id) == bool(access_token):
+        raise ValueError('Either client_id or access_token')
+
     url = 'https://api.quizlet.com/2.0/{}'.format(end_point)
-    params['client_id'] = client_id
+
+    if not params:
+        params = {}
+    if client_id:
+        params['client_id'] = client_id
+
+    headers = {'Authorization': 'Bearer {}'.format(access_token)} if access_token else None
+
     # pylint: disable=too-many-function-args
-    response = requests.request(method, url, params=params)
+    response = requests.request(method, url, params=params, headers=headers)
     # pylint: enable=too-many-function-args
+
     # pylint: disable=no-member
     if int(response.status_code / 100) != 2:
     # pylint: enable=no-member

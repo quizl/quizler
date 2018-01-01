@@ -10,7 +10,7 @@ from quizler.models import Term, WordSet
 
 def get_user_sets(client_id, user_id):
     """Find all user sets."""
-    data = api_call('get', 'users/{}/sets'.format(user_id), {}, client_id)
+    data = api_call('get', 'users/{}/sets'.format(user_id), client_id=client_id)
     return [WordSet.from_dict(wordset) for wordset in data]
 
 
@@ -53,17 +53,17 @@ def print_common_terms(common_terms: List[Tuple[str, str, Set[str]]]):
                 print('    {}'.format(term))
 
 
-def delete_term(set_id, term_id, client_id):
+def delete_term(set_id, term_id, access_token):
     """Delete the given term."""
-    api_call('delete', 'sets/{}/terms/{}'.format(set_id, term_id), {}, client_id)
+    api_call('delete', 'sets/{}/terms/{}'.format(set_id, term_id), access_token=access_token)
 
 
-def add_term(set_id, term: Term, client_id):
+def add_term(set_id, term: Term, access_token):
     """Add the given term to the given set."""
-    api_call('post', 'sets/{}/terms'.format(set_id), term.to_dict(), client_id)
+    api_call('post', 'sets/{}/terms'.format(set_id), term.to_dict(), access_token=access_token)
 
 
-def reset_term_stats(set_id, term_id, client_id, user_id):
+def reset_term_stats(set_id, term_id, client_id, user_id, access_token):
     """Reset the stats of a term by deleting and re-creating it."""
     found_sets = [user_set for user_set in get_user_sets(client_id, user_id)
                   if user_set.set_id == set_id]
@@ -81,9 +81,9 @@ def reset_term_stats(set_id, term_id, client_id, user_id):
         raise NotImplementedError('"{}" has an image and is thus not supported'.format(term))
 
     print('Deleting "{}"...'.format(term))
-    delete_term(set_id, term_id, client_id)
+    delete_term(set_id, term_id, access_token)
     print('Re-creating "{}"...'.format(term))
-    add_term(set_id, term, client_id)
+    add_term(set_id, term, access_token)
     print('Done')
 
 
