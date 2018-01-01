@@ -1,7 +1,8 @@
 """Additional none-user-visible utilities."""
 
+from typing import Dict
+import json
 import os
-
 import requests
 
 
@@ -14,14 +15,21 @@ def get_api_envs():
     return client_id, user_id
 
 
-def api_call(end_point, client_id, user_id):
+def api_call(method: str, end_point: str, params: Dict[str, str], client_id: str):
     """Call given API end_point with API keys."""
-    url = 'https://api.quizlet.com/2.0/users/{}/{}'.format(user_id, end_point)
-    params = {'client_id': client_id}
-    response = requests.get(url, params)
-    if response.status_code != 200:
+    url = 'https://api.quizlet.com/2.0/{}'.format(end_point)
+    params['client_id'] = client_id
+    # pylint: disable=too-many-function-args
+    response = requests.request(method, url, params=params)
+    # pylint: enable=too-many-function-args
+    # pylint: disable=no-member
+    if int(response.status_code / 100) != 2:
+    # pylint: enable=no-member
         raise ValueError(
             'Unknown end point, server returns {}'.format(response.status_code)
         )
-    else:
+
+    try:
         return response.json()
+    except json.decoder.JSONDecodeError:
+        pass

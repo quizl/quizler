@@ -5,8 +5,8 @@ from unittest import mock
 
 from quizler.models import WordSet
 from quizler.utils import print_common_terms, get_common_terms, get_user_sets, \
-    print_user_sets
-from tests.factories import TermFactory, WordSetFactory
+    print_user_sets, delete_term, add_term, reset_term_stats
+from tests.factories import ImageFactory, TermFactory, WordSetFactory
 from tests.utils import MockStdoutTestCase
 
 
@@ -68,11 +68,11 @@ class TestGetUserSets(unittest.TestCase):
         mock_data = [wordset0.to_dict(), wordset1.to_dict()]
         wordsets = [WordSet.from_dict(wordset) for wordset in mock_data]
         mock_api_call.return_value = mock_data
-        assert get_user_sets() == wordsets
+        assert get_user_sets('client_id', 'user_id') == wordsets
 
     def test_there_are_no_sets(self, mock_api_call):
         mock_api_call.return_value = []
-        self.assertEqual(get_user_sets(), [])
+        self.assertEqual(get_user_sets('client_id', 'user_id'), [])
 
 
 class TestPrintUserSets(MockStdoutTestCase):
@@ -110,3 +110,87 @@ class TestPrintUserSets(MockStdoutTestCase):
                           '        {} = {}'
                           .format(wordset0.title, term0.term, term0.definition, term1.term,
                                   term1.definition, wordset1.title, term2.term, term2.definition))
+
+
+@mock.patch('quizler.utils.api_call')
+class TestDeleteTerm(unittest.TestCase):
+
+    def test_one_term(self, mock_api_call):
+        set_id = 1
+        term_id = 2
+        client_id = 3
+        delete_term(set_id, term_id, client_id)
+        mock_api_call.assert_called_once_with(
+            'delete',
+            'sets/{}/terms/{}'.format(set_id, term_id),
+            {},
+            client_id
+        )
+
+
+@mock.patch('quizler.utils.api_call')
+class TestAddTerm(unittest.TestCase):
+
+    def test_one_term(self, mock_api_call):
+        set_id = 1
+        term = TermFactory()
+        client_id = 3
+        add_term(set_id, term, client_id)
+        mock_api_call.assert_called_once_with(
+            'post',
+            'sets/{}/terms'.format(set_id),
+            term.to_dict(),
+            client_id
+        )
+
+
+@mock.patch('quizler.utils.get_user_sets')
+class TestResetTermStats(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.term0 = TermFactory(image=ImageFactory(url='http://domain.com/myimage.png'))
+        cls.term1 = TermFactory()
+        cls.term2 = TermFactory()
+        cls.wordset0 = WordSetFactory(terms=[cls.term0, cls.term1])
+        cls.wordset1 = WordSetFactory(terms=[cls.term2])
+        cls.wordsets = [cls.wordset0, cls.wordset1]
+
+    def test_set_not_found(self, mock_get_user_sets):
+        mock_get_user_sets.return_value = self.wordsets
+        unknown_set_id = -1
+        term_id = self.term0.term_id
+        client_id = 1
+        user_id = 2
+        with self.assertRaises(ValueError):
+            reset_term_stats(unknown_set_id, term_id, client_id, user_id)
+
+    def test_term_not_found(self, mock_get_user_sets):
+        mock_get_user_sets.return_value = self.wordsets
+        set_id = self.wordset0.set_id
+        unknown_term_id = -1
+        client_id = 1
+        user_id = 2
+        with self.assertRaises(ValueError):
+            reset_term_stats(set_id, unknown_term_id, client_id, user_id)
+
+    def test_term_has_image(self, mock_get_user_sets):
+        mock_get_user_sets.return_value = self.wordsets
+        set_id = self.wordset0.set_id
+        term_id = self.term0.term_id
+        client_id = 1
+        user_id = 2
+        with self.assertRaises(NotImplementedError):
+            reset_term_stats(set_id, term_id, client_id, user_id)
+
+    @mock.patch('quizler.utils.add_term')
+    @mock.patch('quizler.utils.delete_term')
+    def test_one_term(self, mock_delete_term, mock_add_term, mock_get_user_sets):
+        mock_get_user_sets.return_value = self.wordsets
+        set_id = self.wordset0.set_id
+        term_id = self.term1.term_id
+        client_id = 1
+        user_id = 2
+        reset_term_stats(set_id, term_id, client_id, user_id)
+        mock_delete_term.assert_called_once_with(set_id, term_id, client_id)
+        mock_add_term.assert_called_once_with(set_id, self.term1, client_id)

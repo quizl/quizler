@@ -3,8 +3,54 @@
 import unittest
 
 import pytest
-from quizler.models import Term, WordSet
-from tests.factories import TermFactory, WordSetFactory
+from quizler.models import Image, Term, WordSet
+from tests.factories import ImageFactory, TermFactory, WordSetFactory
+
+
+class TestImage(unittest.TestCase):
+
+    def test_from_dict(self):
+        raw_data = {
+            'url': 'http://domain.com/myimage.png',
+            'width': 200,
+            'height': 100
+        }
+        image = Image.from_dict(raw_data)
+        assert image.url == 'http://domain.com/myimage.png'
+        assert image.width == 200
+        assert image.height == 100
+
+    def test_wrong_image_json_structure(self):
+        with self.assertRaises(ValueError):
+            Image.from_dict({'some data': '142% unexpected'})
+
+    def test_correct_init(self):
+        image = Image('http://domain.com/myimage.png', 200, 100)
+        assert image.url == 'http://domain.com/myimage.png'
+        assert image.width == 200
+        assert image.height == 100
+
+    def test_to_dict(self):
+        image = Image('http://domain.com/myimage.png', 200, 100)
+        assert image.to_dict() == {
+            'url': 'http://domain.com/myimage.png',
+            'width': 200,
+            'height': 100
+        }
+
+    def test_equal_images(self):
+        image0 = Image('http://domain.com/myimage.png', 200, 100)
+        image1 = Image('http://domain.com/myimage.png', 200, 100)
+        assert image0 == image1
+
+    def test_unequal_images(self):
+        image0 = Image('http://domain.com/myimage.png', 200, 100)
+        image1 = Image('http://domain.com/myimage.png', 201, 100)
+        assert image0 != image1
+
+    def test_wrong_equality_type(self):
+        with pytest.raises(ValueError):
+            assert ImageFactory() == 1
 
 
 class TestTerm(unittest.TestCase):
@@ -20,7 +66,7 @@ class TestTerm(unittest.TestCase):
         term = Term.from_dict(raw_data)
         assert term.definition == 'term definition'
         assert term.term_id == 12345
-        assert term.image is None
+        assert term.image.url is None
         assert term.rank == 0
         assert term.term == 'term'
 
@@ -29,14 +75,14 @@ class TestTerm(unittest.TestCase):
             Term.from_dict({'some data': '142% unexpected'})
 
     def test_correct_init(self):
-        term = Term('definition', 1, None, 0, 'term')
+        term = Term('definition', 1, ImageFactory(), 0, 'term')
         assert term.definition == 'definition'
         assert term.term_id == 1
-        assert term.image is None
+        assert term.image.url is None
         assert term.term == 'term'
 
     def test_to_dict(self):
-        term = Term('definition1', 1, None, 1, 'term1')
+        term = Term('definition1', 1, ImageFactory(), 1, 'term1')
         assert term.to_dict() == {
             'definition': 'definition1',
             'id': 1,
@@ -46,13 +92,13 @@ class TestTerm(unittest.TestCase):
         }
 
     def test_equal_terms(self):
-        term0 = Term('definition', 0, None, 0, 'term')
-        term1 = Term('definition', 0, None, 0, 'term')
+        term0 = Term('definition', 0, ImageFactory(), 0, 'term')
+        term1 = Term('definition', 0, ImageFactory(), 0, 'term')
         assert term0 == term1
 
     def test_unequal_terms(self):
-        term0 = Term('definition0', 0, None, 0, 'term0')
-        term1 = Term('definition1', 1, None, 0, 'term1')
+        term0 = Term('definition0', 0, ImageFactory(), 0, 'term0')
+        term1 = Term('definition1', 1, ImageFactory(), 0, 'term1')
         assert term0 != term1
 
     def test_wrong_equality_type(self):
@@ -98,14 +144,14 @@ class TestWordSet(unittest.TestCase):
         wordset = WordSet.from_dict(raw_data)
         assert wordset.set_id == 0
         assert wordset.title == 'title0'
-        assert wordset.terms == [Term('definition0', 0, None, 0, 'term0')]
+        assert wordset.terms == [Term('definition0', 0, Image(None, None, None), 0, 'term0')]
 
     def test_from_bad_dict(self):
         with pytest.raises(ValueError):
             WordSet.from_dict({})
 
     def test_to_dict(self):
-        wordset = WordSet(0, 'title0', [Term('def0', 0, None, 0, 'term0')])
+        wordset = WordSet(0, 'title0', [Term('def0', 0, ImageFactory(), 0, 'term0')])
         assert wordset.to_dict() == {
             'id': 0,
             'title': 'title0',

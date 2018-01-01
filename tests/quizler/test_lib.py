@@ -33,25 +33,26 @@ class TestGetApiEnvs(unittest.TestCase):
 
 class TestApiCall(unittest.TestCase):
 
-    @mock.patch('requests.get')
-    def test_unknown_endpoint(self, mock_get):
-        mock_get.return_value.status_code = 404
+    @mock.patch('requests.request')
+    def test_unknown_endpoint(self, mock_request):
+        mock_request.return_value.status_code = 404
         with self.assertRaises(ValueError):
-            api_call('unknown_end_point', 'client_id', 'user_id')
+            api_call('get', 'unknown_end_point', {}, 'client_id')
 
-    @mock.patch('requests.get')
-    def test_correct_url_was_called(self, mock_get):
-        mock_get.return_value.status_code = 200
-        api_call('end_point', 'client_id', 'user_id')
-        mock_get.assert_called_once_with(
-            'https://api.quizlet.com/2.0/users/user_id/end_point',
-            {'client_id': 'client_id'}
+    @mock.patch('requests.request')
+    def test_correct_url_was_called(self, mock_request):
+        mock_request.return_value.status_code = 200
+        api_call('get', 'end_point', {}, 'client_id')
+        mock_request.assert_called_once_with(
+            'get',
+            'https://api.quizlet.com/2.0/end_point',
+            params={'client_id': 'client_id'}
         )
 
-    @mock.patch('requests.get')
-    def test_correct_output_was_returned(self, mock_get):
+    @mock.patch('requests.request')
+    def test_correct_output_was_returned(self, mock_request):
         response = mock.Mock()
         response.status_code = 200
-        mock_get.return_value = response
-        data = api_call('end_point', 'client_id', 'user_id')
+        mock_request.return_value = response
+        data = api_call('get', 'end_point', {}, 'client_id')
         self.assertEqual(data, response.json())

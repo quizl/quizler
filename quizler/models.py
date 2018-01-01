@@ -1,6 +1,51 @@
 """OOP models for Quizlet terms abstractions."""
 
 
+class Image:
+    """Quizlet image abstraction."""
+
+    def __init__(self, url, width, height):
+        self.url = url
+        self.width = width
+        self.height = height
+
+    @staticmethod
+    def from_dict(raw_data):
+        """Create Image from raw dictionary data."""
+        url = None
+        width = None
+        height = None
+        try:
+            url = raw_data['url']
+            width = raw_data['width']
+            height = raw_data['height']
+        except KeyError:
+            raise ValueError('Unexpected image json structure')
+        except TypeError:
+            # Happens when raw_data is None, i.e. when a term has no image:
+            pass
+        return Image(url, width, height)
+
+    def to_dict(self):
+        """Convert Image into raw dictionary data."""
+        if not self.url:
+            return None
+        return {
+            'url': self.url,
+            'width': self.width,
+            'height': self.height
+        }
+
+    def __eq__(self, other):
+        if not isinstance(other, Image):
+            raise ValueError
+        return all((
+            self.url == other.url,
+            self.width == other.width,
+            self.height == other.height
+        ))
+
+
 class Term:
     """Quizlet term abstraction."""
 
@@ -17,7 +62,7 @@ class Term:
         try:
             definition = raw_data['definition']
             term_id = raw_data['id']
-            image = raw_data['image']
+            image = Image.from_dict(raw_data['image'])
             rank = raw_data['rank']
             term = raw_data['term']
             return Term(definition, term_id, image, rank, term)
@@ -29,7 +74,7 @@ class Term:
         return {
             'definition': self.definition,
             'id': self.term_id,
-            'image': self.image,
+            'image': self.image.to_dict(),
             'rank': self.rank,
             'term': self.term
         }
