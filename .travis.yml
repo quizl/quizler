@@ -16,3 +16,13 @@ script:
 
 after_success:
   - codecov
+
+deploy:
+  provider: pypi
+  user: lancelote
+  password:
+    secure: nMAlT2cbgH9NssmXhxqKSw9yO7plXAxL4f0foUUMxt319pJxhdrNscEzICUF02bXvo+rIxvJVf5IT6/zgdpU54+RWhn+rTrSZMwG72ivVjaJwAzJKqpNrpK8Ox7xnq2NHxz5tyRH+SHIDs5tGr55weLijCRBJ5fXb5va4ewKjJp2BsMX+ZjWMcFuPdacXmcYDKAMxmCECwmhBvoOdOcfanW/jpKHXQd5ZCqBB9DbAX6CBJlN3Hcw3b99DFQPnPnkRL022KWvBR0s6D598cFZYCn+5OGT2Js0EBYu9dDgbCHsv+J5uQbAUH0nHZfcfcPl5txJ1mq4DWnoZoJC8Z1MvxqF2NHvRvxAaJpz//ln1qWybNMqYq9hQpZ9clCB7zDhb3gomEpJNH/KvSnuJ8e1EEjsRjp0skVNvx3sTSnNAKxN0S0kh3X30DOWTN5LmnygAXqLQI+lVMNak1Z8b4IliV6xW4kWspBsZCb0NYyfY66JbV1qJefSMpDvEteadg0wYyAx28aL3/y+mOWabckinmAvWL3Hpcl+uPYDWBnR5x7FozF8s67F5D/OVlq9icpwkRUTvq3GBmFLMn9HHznkWeilgn18KW+iGQjyn5aDnR0FjE1wBhjwXgVFUPlYbVq3xkWA3ouibclLvwK29IxPWFy6iK6xa0XUJX4Z2i5Gj+0=
+  on:
+    tags: true
+    branch: master
+    python: 3.5
