@@ -18,7 +18,8 @@ def create_parser():
     commands.add_parser('common', help='Find duplicate terms across all sets')
 
     # Sets
-    commands.add_parser('sets', help='List all your sets')
+    sets = commands.add_parser('sets', help='List all your sets')
+    sets.add_argument('--terms', action='store_true', help='List all terms of all sets')
 
     # Apply
     apply = commands.add_parser('apply', help='Apply regex replace to set')
@@ -38,7 +39,7 @@ def main():
         print_common_terms(common_terms)
     elif args.command == 'sets':
         user_sets = get_user_sets(*api_envs)
-        print_user_sets(user_sets)
+        print_user_sets(user_sets, args.terms)
     elif args.command == 'apply':
         apply_regex(args.pattern, args.repl, args.set_name, *api_envs)
 

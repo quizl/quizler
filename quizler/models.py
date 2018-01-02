@@ -45,6 +45,9 @@ class Term:
             self.term == other.term
         ))
 
+    def __str__(self):
+        return '{} = {}'.format(self.term, self.definition)
+
 
 class WordSet:
     """Quizlet set of terms and descriptions abstraction."""
