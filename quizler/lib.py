@@ -37,8 +37,15 @@ def api_call(method: str, end_point: str, params: Dict[str, str] = None, client_
     # pylint: disable=no-member
     if int(response.status_code / 100) != 2:
     # pylint: enable=no-member
+        error_title = ''
+        try:
+            error_title += ', ' + response.json()['error_title']
+        except ValueError:
+            pass
+        except KeyError:
+            pass
         raise ValueError(
-            'Unknown end point, server returns {}'.format(response.status_code)
+            '{} returned {}{}'.format(url, response.status_code, error_title)
         )
 
     try:

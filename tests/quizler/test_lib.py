@@ -45,8 +45,23 @@ class TestApiCall(unittest.TestCase):
     @mock.patch('requests.request')
     def test_unknown_endpoint(self, mock_request):
         mock_request.return_value.status_code = 404
+        mock_request.return_value.json = mock.Mock(side_effect=ValueError('invalid json'))
         with self.assertRaises(ValueError):
             api_call('get', 'unknown_end_point', client_id='client_id')
+
+    @mock.patch('requests.request')
+    def test_forbidden_with_error_title(self, mock_request):
+        mock_request.return_value.status_code = 403
+        mock_request.return_value.json = mock.Mock(return_value={'error_title': 'some error'})
+        with self.assertRaises(ValueError):
+            api_call('get', 'end_point', client_id='client_id')
+
+    @mock.patch('requests.request')
+    def test_forbidden_without_error_title(self, mock_request):
+        mock_request.return_value.status_code = 403
+        mock_request.return_value.json = mock.Mock(return_value={})
+        with self.assertRaises(ValueError):
+            api_call('get', 'end_point', client_id='client_id')
 
     @mock.patch('requests.request')
     def test_correct_url_was_called_with_client_id(self, mock_request):
