@@ -2,6 +2,7 @@
 
 import unittest
 
+import pytest
 from quizler.models import Term, WordSet
 from tests.factories import TermFactory, WordSetFactory
 
@@ -54,6 +55,10 @@ class TestTerm(unittest.TestCase):
         term1 = Term('definition1', 1, None, 0, 'term1')
         assert term0 != term1
 
+    def test_wrong_equality_type(self):
+        with pytest.raises(ValueError):
+            assert TermFactory() == 1
+
 
 class TestWordSet(unittest.TestCase):
 
@@ -94,6 +99,10 @@ class TestWordSet(unittest.TestCase):
         assert wordset.set_id == 0
         assert wordset.title == 'title0'
         assert wordset.terms == [Term('definition0', 0, None, 0, 'term0')]
+
+    def test_from_bad_dict(self):
+        with pytest.raises(ValueError):
+            WordSet.from_dict({})
 
     def test_to_dict(self):
         wordset = WordSet(0, 'title0', [Term('def0', 0, None, 0, 'term0')])
