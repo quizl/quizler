@@ -11,8 +11,8 @@ setup(
     description='Set of utils for Quizlet API',
     author='Pavel Karateev',
     author_email='karateev.pavel@ya.ru',
-    url='https://github.com/lancelote/quizler',
-    download_url='https://github.com/lancelote/quizler/archive/{}.tar.gz'.format(version),
+    url='https://github.com/quizl/quizler',
+    download_url='https://github.com/quizl/quizler/archive/{}.tar.gz'.format(version),
     keywords=['quizlet', 'api'],
     entry_points={
         'console_scripts': [
