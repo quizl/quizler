@@ -60,8 +60,6 @@ cov:
 	@echo "Done"
 
 update:
-	@echo "Updating pur..."
-	pip install -U pur
 	@echo "Updating requirements..."
 	pur -r requirements.txt
 	@echo "Done"
