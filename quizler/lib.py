@@ -1,6 +1,5 @@
 """Additional none-user-visible utilities."""
 
-from typing import Dict
 import json
 import os
 import requests
@@ -15,9 +14,15 @@ def get_api_envs():
     return client_id, user_id
 
 
-def api_call(method: str, end_point: str, params: Dict[str, str] = None, client_id: str = None,
-             access_token: str = None):
-    """Call given API end_point with API keys."""
+def api_call(method, end_point, params=None, client_id=None, access_token=None):
+    """Call given API end_point with API keys.
+    :param method: HTTP method (e.g. 'get', 'delete').
+    :param end_point: API endpoint (e.g. 'users/john/sets').
+    :param params: Dictionary to be sent in the query string (e.g. {'myparam': 'myval'})
+    :param client_id: Quizlet client ID as string.
+    :param access_token: Quizlet access token as string.
+    client_id and access_token are mutually exclusive but mandatory.
+    """
     if bool(client_id) == bool(access_token):
         raise ValueError('Either client_id or access_token')
 
