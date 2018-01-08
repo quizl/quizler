@@ -30,13 +30,9 @@ def api_call(method: str, end_point: str, params: Dict[str, str] = None, client_
 
     headers = {'Authorization': 'Bearer {}'.format(access_token)} if access_token else None
 
-    # pylint: disable=too-many-function-args
     response = requests.request(method, url, params=params, headers=headers)
-    # pylint: enable=too-many-function-args
 
-    # pylint: disable=no-member
     if int(response.status_code / 100) != 2:
-    # pylint: enable=no-member
         error_title = ''
         try:
             error_title += ', ' + response.json()['error_title']
