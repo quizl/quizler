@@ -28,17 +28,6 @@ class TestCreateParser(unittest.TestCase):
         args = self.parser.parse_args(['sets'])
         self.assertEqual(args.command, 'sets')
 
-    def test_apply_command_without_args(self):
-        with self.assertRaises(SystemExit):
-            self.parser.parse_args(['apply'])
-
-    def test_apply_command_with_all_args(self):
-        args = self.parser.parse_args(['apply', 'pattern', 'repl', 'set_name'])
-        self.assertEqual(args.command, 'apply')
-        self.assertEqual(args.pattern, 'pattern')
-        self.assertEqual(args.repl, 'repl')
-        self.assertEqual(args.set_name, 'set_name')
-
 
 @mock_envs(CLIENT_ID='client_id', USER_ID='user_id')
 class TestMain(unittest.TestCase):
@@ -56,10 +45,3 @@ class TestMain(unittest.TestCase):
     def test_sets(self, mock_get_user_sets):
         main()
         mock_get_user_sets.assert_called_once_with('client_id', 'user_id')
-
-    @mock.patch('quizler.main.apply_regex')
-    @mock_argv('apply', 'pattern', 'repl', 'set_name')
-    def test_apply(self, mock_apply_regex):
-        main()
-        mock_apply_regex.assert_called_once_with('pattern', 'repl', 'set_name', 'client_id',
-                                                 'user_id')

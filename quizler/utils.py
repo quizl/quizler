@@ -92,9 +92,3 @@ def reset_term_stats(set_id, term_id, client_id, user_id, access_token):
     print('Re-creating "{}"...'.format(term))
     add_term(set_id, term, access_token)
     print('Done')
-
-
-def apply_regex(pattern, repl, set_name, *api_envs):
-    """Apply regex replace to all terms in word set."""
-    print('{}, {}, {}, {}'.format(pattern, repl, set_name, api_envs))
-    raise NotImplementedError  # ToDo: complete the utility
