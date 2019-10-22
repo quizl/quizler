@@ -1,5 +1,5 @@
 # Project's dependencies:
-requests==2.18.4
+requests==2.20.0
 
 # Validation tools and dependencies:
 pylint==1.8.1
